@@ -65,6 +65,33 @@
   .nav-links {
     display: none; /* Mobile menu can be simplified or hidden for single-page conversion */
   }
+  .header {
+    height: 70px;
+  }
+  .logo {
+    font-size: 20px;
+    gap: 8px;
+  }
+  .logo-img {
+    height: 38px;
+  }
+  .header .btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  .logo {
+    font-size: 18px;
+  }
+  .logo-img {
+    height: 34px;
+  }
+  .header .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
 }
 
 /* Hero Section - Split Layout */

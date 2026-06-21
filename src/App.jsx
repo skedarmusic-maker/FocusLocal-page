@@ -22,6 +22,41 @@ import {
 import './App.css';
 
 function App() {
+  const WHATSAPP_SIGN_LINK = "https://wa.me/5511965843545?text=Ol%C3%A1!%20Quero%20otimizar%20meu%20posicionamento%20no%20Google%20Maps%20e%20assinar%20o%20plano%20FocusLocal%20Pro%20de%20R%24%2089%2Fm%C3%AAs.%20Como%20fa%C3%A7o%20para%20come%C3%A7ar%3F";
+  const WHATSAPP_CHAT_LINK = "https://wa.me/5511965843545?text=Ol%C3%A1!%20Estou%20na%20p%C3%A1gina%20do%20FocusLocal%20e%20gostaria%20de%20tirar%20algumas%20d%C3%BAvidas%20antes%20de%20assinar.";
+
+  // Função robusta de rastreamento para Google Ads, GTM e Facebook Pixel
+  const trackCtaClick = (ctaName) => {
+    // 1. Envia para o Google Tag Manager (GTM DataLayer)
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        'event': 'conversao_whatsapp',
+        'cta_location': ctaName
+      });
+    }
+
+    // 2. Envia para o Google Ads / Google Analytics (gtag.js)
+    if (typeof window.gtag === 'function') {
+      // Dispara o evento de conversão oficial do Google Ads com o rótulo de conversão extraído
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-16883342741/7t7iCJ-o88cZEPXD8-w-'
+      });
+
+      // Mantém o evento personalizado de clique para estatísticas gerais
+      window.gtag('event', 'click_whatsapp_cta', {
+        'event_category': 'Conversao',
+        'event_label': ctaName,
+        'value': 1.0,
+        'currency': 'BRL'
+      });
+    }
+
+    // 3. Envia para o Meta Pixel (Facebook Ads)
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Contact', { content_name: ctaName });
+    }
+  };
+
   // Estado para as funcionalidades interativas
   const [activeTab, setActiveTab] = useState(0);
 
@@ -139,7 +174,7 @@ function App() {
             <a href="#preco" className="nav-link">Preço</a>
             <a href="#faq" className="nav-link">Dúvidas</a>
           </nav>
-          <a href="#preco" className="btn btn-outline-primary" style={{ padding: '8px 16px', fontSize: '14px' }}>
+          <a href={WHATSAPP_SIGN_LINK} id="cta-header" className="btn btn-outline-primary tracker-cta-whatsapp" style={{ padding: '8px 16px', fontSize: '14px' }} target="_blank" rel="noopener noreferrer" onClick={() => trackCtaClick('header')}>
             Começar Agora
           </a>
         </div>
@@ -180,7 +215,7 @@ function App() {
               </div>
 
               <div className="hero-cta-wrapper">
-                <a href="#preco" className="btn btn-primary">
+                <a href={WHATSAPP_SIGN_LINK} id="cta-hero" className="btn btn-primary tracker-cta-whatsapp" target="_blank" rel="noopener noreferrer" onClick={() => trackCtaClick('hero')}>
                   Quero Acessar o FocusLocal Agora <ArrowRight size={18} />
                 </a>
                 <span className="cta-subtext">Sem contratos. Cancele quando quiser.</span>
@@ -613,7 +648,7 @@ function App() {
                 </div>
               </div>
 
-              <a href="https://pay.kiwify.com.br" className="btn btn-primary" style={{ width: '100%', fontSize: '18px', padding: '16px' }} target="_blank" rel="noreferrer">
+              <a href={WHATSAPP_SIGN_LINK} id="cta-pricing" className="btn btn-primary tracker-cta-whatsapp" style={{ width: '100%', fontSize: '18px', padding: '16px' }} target="_blank" rel="noopener noreferrer" onClick={() => trackCtaClick('pricing')}>
                 Começar Agora por R$ 89/mês
               </a>
 
@@ -693,11 +728,13 @@ function App() {
 
       {/* BOTÃO FLUTUANTE WHATSAPP */}
       <a
-        href="https://wa.me/5511965843545?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20duvidas%20sobre%20o%20FocusLocal"
-        className="whatsapp-float-btn"
+        href={WHATSAPP_CHAT_LINK}
+        id="cta-whatsapp-floating"
+        className="whatsapp-float-btn tracker-cta-whatsapp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Fale conosco no WhatsApp"
+        onClick={() => trackCtaClick('floating_button')}
       >
         <span className="whatsapp-tooltip">Dúvidas? Fale Conosco!</span>
         <svg viewBox="0 0 24 24" className="whatsapp-icon-svg" fill="currentColor">

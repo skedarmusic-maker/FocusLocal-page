@@ -24,8 +24,9 @@ async function deploy() {
             user: user,
             password: password,
             secure: true, // Tenta usar FTPS seguro
-            options: {
-                rejectUnauthorized: false // Ignora erro de certificado autoassinado comum em hospedagens
+            secureOptions: {
+                rejectUnauthorized: false, // Ignora erro de certificado autoassinado ou expirado
+                checkServerIdentity: () => undefined // Ignora erro de nome de host incompatível (ex: IP em vez de *.hstgr.io)
             }
         })
         
